@@ -3,8 +3,8 @@ const nextConfig = {
   experimental: {
     appDir: true,
     swcMinify: true,
-    swcTraceProfiling: true,
-  },
+    swcTraceProfiling: true
+  }
 };
 
 module.exports = nextConfig;
