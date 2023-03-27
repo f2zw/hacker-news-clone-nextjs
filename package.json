@@ -6,6 +6,7 @@
     "node": ">=18.0.0"
   },
   "scripts": {
+    "postinstall": "husky install && rm -rf .git/hooks && ln -s ../.husky .git/hooks",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",

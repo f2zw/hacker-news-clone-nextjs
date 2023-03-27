@@ -1,0 +1,23 @@
+.main {
+  background-color: #ff6600;
+}
+.hnname {
+  margin-right: 5px;
+  bgcolor: #ff6600;
+}
+
+.td {
+  width: 18px;
+  padding-right: 4px;
+  bgcolor: #ff6600;
+}
+.pagetop {
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 10pt;
+  bgcolor: #222222;
+  line-height: 12px;
+}
+
+.logo {
+  border: 1px white solid;
+}
