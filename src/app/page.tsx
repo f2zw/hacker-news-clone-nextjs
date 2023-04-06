@@ -1,94 +1,184 @@
-import { Inter } from 'next/font/google';
-import Image from 'next/image';
+import Footer from '@/app/components/Footer';
+import Header from '@/app/components/Header';
 
-import styles from '@/app/page.module.css';
-
-const inter = Inter({ subsets: ['latin'] });
-
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <div>
-          Get started by editing&nbsp;
-          <code className={styles.code}>src/app/page.tsx</code>
-        </div>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
-        </div>
-      </div>
-
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-        <div className={styles.thirteen}>
-          <Image src="/thirteen.svg" alt="13" width={40} height={31} priority />
-        </div>
-      </div>
-
-      <div className={styles.grid}>
-        <a
-          href="https://beta.nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Docs <span>-&gt;</span>
-          </h2>
-          <div className={inter.className}>
-            Find in-depth information about Next.js features and API.
-          </div>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Templates <span>-&gt;</span>
-          </h2>
-          <div className={inter.className}>
-            Explore the Next.js 13 playground.
-          </div>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={inter.className}>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <div className={inter.className}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </div>
-        </a>
-      </div>
-    </main>
+// import '@/app/topics/Topics.module.css';
+async function getTopics() {
+  const response = await fetch(
+    'https://hacker-news.firebaseio.com/v0/topstories.json'
   );
+  const data = await response.json();
+  return data.slice(0, 30);
+}
+
+async function getTopic(itemId: number) {
+  const response = await fetch(
+    `https://hacker-news.firebaseio.com/v0/item/${itemId}.json`
+  );
+  const data = await response.json();
+  return data;
+}
+function getDomainFromUrl(url: string) {
+  let result = '';
+  let match;
+  if (typeof url == 'undefined') {
+    url = '';
+  } else {
+    if (
+      (match = url.match(
+        /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im
+      ))
+    ) {
+      result = match[1];
+      if ((match = result.match(/^[^\.]+\.(.+\..+)$/))) {
+        result = match[1];
+      }
+    }
+  }
+  return result;
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+interface TopicProps {
+  id: number;
+  by: string;
+  descendants: number;
+  kids: number[];
+  score: number;
+  time: number;
+  title: string;
+  type: string;
+  url: string;
+}
+
+export default async function TopicPage() {
+  const topics = await getTopics();
+  return (
+    <center>
+      <table
+        id="hnmain"
+        border={0}
+        cellPadding={0}
+        cellSpacing={0}
+        width="85%"
+        bgcolor="#f6f6ef"
+      >
+        <tbody>
+          <tr>
+            <td
+              style={{
+                backgroundColor: '#ff6600'
+              }}
+            >
+              <Header></Header>
+            </td>
+          </tr>
+          <tr
+            className="pagespace"
+            title=""
+            style={{
+              height: '10px'
+            }}
+          />
+          <tr>
+            <td>
+              <table border={0} cellPadding={0} cellSpacing={0}>
+                <tbody>
+                  {topics.map((topicId: number, index: number) => {
+                    return (
+                      <>
+                        {/* @ts-expect-error Server Component */}
+                        <Topic
+                          key={topicId}
+                          topicId={topicId}
+                          index={index + 1}
+                        />
+                      </>
+                    );
+                  })}
+                  <tr className="morespace" style={{ height: '10px' }}></tr>
+                  <tr>
+                    <td colSpan={2} />
+                    <td className="title">
+                      <a href="news?p=2" className="morelink" rel="next">
+                        More
+                      </a>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </td>
+          </tr>
+          <tr>
+            <Footer></Footer>
+          </tr>
+        </tbody>
+      </table>
+    </center>
+  );
+}
+
+async function Topic({ topicId, index }: TopicParams) {
+  const topic: TopicProps = await getTopic(topicId);
+  const domain = getDomainFromUrl(topic.url);
+  return (
+    <>
+      <tr className="athing" key={topicId} id={'' + topicId}>
+        <td align="right" valign="top" className="title">
+          <span className="rank">{`${index}.`}</span>
+        </td>
+        <td valign="top" className="votelinks">
+          <center>
+            <a
+              id={`up_${topicId}`}
+              href={`vote?id=${topicId}&amp;how=up&amp;goto=news`}
+            >
+              <div className="votearrow" title="upvote" />
+            </a>
+          </center>
+        </td>
+        <td className="title">
+          <span className="titleline">
+            <a href={`${topic.url}`}>{`${topic.title}`}</a>
+            {domain !== '' && (
+              <span className="sitebit comhead">
+                {' ('}
+                <a href={`from?site=${topic.url}`}>
+                  <span className="sitestr">{`${domain}`}</span>
+                </a>
+                {')'}
+              </span>
+            )}
+          </span>
+        </td>
+      </tr>
+      <tr>
+        <td colSpan={2} />
+        <td className="subtext">
+          <span className="score" id="score_27000000">
+            {`${topic.score} ${topic.score === 1 ? 'point' : 'points'}}`}
+          </span>{' '}
+          by{' '}
+          <a href={`user?id=${topic.by}`} className="hnuser">
+            {`${topic.by}`}
+          </a>{' '}
+          <span className="age">
+            <a href={`item?id=${topic.id}`}>1 hour ago</a>
+          </span>{' '}
+          | <a href={`hide?id=${topic.id}&amp;goto=news`}>hide</a> |{' '}
+          <a href={`item?id=${topic.id}`}>
+            {`${topic.descendants} ${
+              topic.descendants === 1 ? 'comment' : 'comments'
+            }}`}
+          </a>
+        </td>
+      </tr>
+      <tr className="spacer" style={{ height: '5px' }}></tr>
+    </>
+  );
+}
+
+interface TopicParams {
+  key: number;
+  topicId: number;
+  index: number;
 }

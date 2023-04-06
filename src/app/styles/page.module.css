@@ -13,10 +13,8 @@
   height: 10px;
 }
 .table {
+  padding: 2px;
   min-width: 796px;
-  bgcolor: #f6f6ef;
-  border: 0;
-  cellpadding: 0;
 }
 .body {
   font-family: Verdana, Geneva, sans-serif;

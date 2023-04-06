@@ -1,4 +1,3 @@
-import styles from '@/app/topics/Topics.header.module.css';
 import Image from 'next/image';
 
 function Logo() {
@@ -8,7 +7,9 @@ function Logo() {
       alt="y18"
       width="18"
       height="18"
-      className={styles.logo}
+      style={{
+        border: '1px solid white'
+      }}
     />
   );
 }
