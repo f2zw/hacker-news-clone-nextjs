@@ -1,9 +1,10 @@
-import SImage from './SImage';
+import sImage from '@/app/assets/s.gif';
+import Image from 'next/image';
 
 export default function Header() {
   return (
     <td>
-      <SImage></SImage>
+      <Image src={sImage} alt="s" width="0" height={10} />
       <table border={0} cellPadding={1} cellSpacing={0} width="100%">
         <tbody>
           <tr>

@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 
 import Stories from '@/app/components/Stories';
 
-export default function App() {
+export default function News() {
   const searchParams = useSearchParams();
 
   const page = searchParams.get('p') || '1';
