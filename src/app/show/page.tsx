@@ -6,7 +6,7 @@ import Body from '@/app/components/Body';
 import Footer from '@/app/components/Footer';
 import Header from '@/app/components/Header';
 
-export default function App() {
+export default function Show() {
   const searchParams = useSearchParams();
 
   const pathname = usePathname();
