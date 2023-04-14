@@ -6,7 +6,7 @@ import Body from '@/app/components/Body';
 import Footer from '@/app/components/Footer';
 import Header from '@/app/components/Header';
 
-export default function News() {
+export default function Newest() {
   const searchParams = useSearchParams();
 
   const pathname = usePathname();

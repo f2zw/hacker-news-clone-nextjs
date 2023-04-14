@@ -1,54 +1,31 @@
 'use client';
-import useSWR from 'swr';
+
+import StoryComment from '@/app/components/Story/Comment';
 
 interface StoryParams {
   key: number;
   storyId: number;
   index: number;
+  story: StoryProps;
+  pathType: string;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-interface StoryProps {
+export interface StoryProps {
   id: number;
-  by: string;
-  descendants: number;
-  kids: number[];
-  score: number;
-  time: number;
   title: string;
+  points: number;
+  user: string;
+  time: number;
+  time_ago: string;
+  comments_count: number;
   type: string;
   url: string;
+  domain: string;
 }
 
-function getDomainFromUrl(url: string) {
-  let result = '';
-  let match;
-  if (typeof url == 'undefined') {
-    url = '';
-  } else {
-    if (
-      (match = url.match(
-        /^(?:https?:\/\/)?(?:[^@\n]+@)?(?:www\.)?([^:\/\n\?\=]+)/im
-      ))
-    ) {
-      result = match[1];
-      if ((match = result.match(/^[^\.]+\.(.+\..+)$/))) {
-        result = match[1];
-      }
-    }
-  }
-  return result;
-}
-
-export default function Story({ storyId, index }: StoryParams) {
-  const url = `https://hacker-news.firebaseio.com/v0/item/${storyId}.json`;
-  const fetcher = (url: string) => fetch(url).then(res => res.json());
-  const { data: story, error } = useSWR(url, fetcher);
-
-  if (error) return <></>;
-  if (!story) return <></>;
-
-  const domain = getDomainFromUrl(story.url);
+export default function Story({ storyId, index, story, pathType }: StoryParams) {
+  const isAskOrShow = pathType === 'ask' || pathType === 'show';
   return (
     <>
       <tr className="athing" key={storyId} id={'' + storyId}>
@@ -57,10 +34,7 @@ export default function Story({ storyId, index }: StoryParams) {
         </td>
         <td valign="top" className="votelinks">
           <center>
-            <a
-              id={`up_${storyId}`}
-              href={`vote?id=${storyId}&amp;how=up&amp;goto=news`}
-            >
+            <a id={`up_${storyId}`} href={`vote?id=${storyId}&amp;how=up&amp;goto=news`}>
               <div className="votearrow" title="upvote" />
             </a>
           </center>
@@ -68,13 +42,11 @@ export default function Story({ storyId, index }: StoryParams) {
         <td className="title">
           <span className="titleline">
             <a href={`${story.url}`}>{`${story.title}`}</a>
-            {domain !== '' && (
+            {story.domain !== '' && story.domain !== undefined && (
               <span className="sitebit comhead">
-                {' ('}
                 <a href={`from?site=${story.url}`}>
-                  <span className="sitestr">{`${domain}`}</span>
+                  <span className="sitestr">{` (${story.domain})`}</span>
                 </a>
-                {')'}
               </span>
             )}
           </span>
@@ -83,22 +55,17 @@ export default function Story({ storyId, index }: StoryParams) {
       <tr>
         <td colSpan={2} />
         <td className="subtext">
-          <span className="score" id="score_27000000">
-            {`${story.score} ${story.score === 1 ? 'point' : 'points'}}`}
-          </span>{' '}
-          by{' '}
-          <a href={`user?id=${story.by}`} className="hnuser">
-            {`${story.by}`}
-          </a>{' '}
-          <span className="age">
-            <a href={`item?id=${story.id}`}>1 hour ago</a>
-          </span>{' '}
-          | <a href={`hide?id=${story.id}&amp;goto=news`}>hide</a> |{' '}
-          <a href={`item?id=${story.id}`}>
-            {`${story.descendants} ${
-              story.descendants === 1 ? 'comment' : 'comments'
-            }}`}
+          <span className="score" id={`score_${story.id}`}>
+            {`${story.points} ${story.points === 1 ? 'point' : 'points'} `}
+          </span>
+          <a href={`user?id=${story.user}`} className="hnuser">
+            {`by ${story.user}`}
           </a>
+          <span className="age">
+            <a href={`item?id=${story.id}`}> {story.time_ago} | </a>
+          </span>
+          {!isAskOrShow && <a href={`hide?id=${story.id}&amp;goto=news`}>hide | </a>}
+          <StoryComment storyId={story.id} count={story.comments_count} />
         </td>
       </tr>
       <tr className="spacer" style={{ height: '5px' }}></tr>

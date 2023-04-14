@@ -2,7 +2,89 @@
 import Image from 'next/image';
 
 import logoImage from '@/app/assets/y18.gif';
-export default function Header() {
+
+interface PageProps {
+  href: string;
+  text: string;
+  disabled: boolean;
+}
+
+const pageObject = {
+  new: {
+    href: 'newest',
+    text: 'new',
+    disabled: false
+  },
+  front: {
+    href: 'front',
+    text: 'past',
+    disabled: true
+  },
+  comments: {
+    href: 'newcomments',
+    text: 'comments',
+    disabled: true
+  },
+  ask: {
+    href: 'ask',
+    text: 'ask',
+    disabled: false
+  },
+  show: {
+    href: 'show',
+    text: 'show',
+    disabled: false
+  },
+  jobs: {
+    href: 'jobs',
+    text: 'jobs',
+    disabled: false
+  },
+  submit: {
+    href: 'submit',
+    text: 'submit',
+    disabled: true
+  },
+  login: {
+    href: 'login',
+    text: 'login',
+    disabled: true
+  }
+};
+
+const headerElement = (selected: boolean, pageProps: PageProps) => {
+  if (selected) {
+    return (
+      <span className="topsel">
+        <a
+          href={pageProps.href}
+          style={{
+            pointerEvents: pageProps.disabled ? 'none' : 'auto'
+          }}
+        >
+          {pageProps.text}
+        </a>
+      </span>
+    );
+  } else {
+    return (
+      <a
+        href={pageProps.href}
+        style={{
+          pointerEvents: pageProps.disabled ? 'none' : 'auto'
+        }}
+      >
+        {pageProps.text}
+      </a>
+    );
+  }
+};
+
+interface HeaderProps {
+  pathType: string;
+}
+
+export default function Header({ pathType }: HeaderProps) {
   return (
     <td
       style={{
@@ -26,7 +108,14 @@ export default function Header() {
                 paddingRight: '4px'
               }}
             >
-              <a href="https://news.ycombinator.com">
+              <a
+                href="https://news.ycombinator.com"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center'
+                }}
+              >
                 <Image
                   src={logoImage}
                   alt="y18"
@@ -48,11 +137,15 @@ export default function Header() {
               <span className="pagetop">
                 <b className="hnname">
                   <a href="news">Hacker News</a>
-                </b>
-                <a href="/">new</a> | <a href="front">past</a> |{' '}
-                <a href="newcomments">comments</a> | <a href="ask">ask</a> |{' '}
-                <a href="show">show</a> | <a href="jobs">jobs</a> |{' '}
-                <a href="submit">submit</a>
+                </b>{' '}
+                {/* prettier-ignore */}
+                {headerElement(pathType === 'newest', pageObject.new)} |{' '}
+                {headerElement(pathType === 'front', pageObject.front)} |{' '}
+                {headerElement(pathType === 'newcomments', pageObject.comments)} |{' '}
+                {headerElement(pathType === 'ask', pageObject.ask)} |{' '}
+                {headerElement(pathType === 'show', pageObject.show)} |{' '}
+                {headerElement(pathType === 'jobs', pageObject.jobs)} |{' '}
+                {headerElement(pathType === 'submit', pageObject.submit)}
               </span>
             </td>
             <td
@@ -61,9 +154,7 @@ export default function Header() {
                 paddingRight: '4px'
               }}
             >
-              <span className="pagetop">
-                <a href="login?goto=news">login</a>
-              </span>
+              <span className="pagetop">{headerElement(pathType === 'login', pageObject.login)}</span>
             </td>
           </tr>
         </tbody>
