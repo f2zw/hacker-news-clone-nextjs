@@ -1,6 +1,7 @@
 'use client';
 
-import StoryComment from '@/app/components/Story/Comment';
+import StoryRank from './Story/Rank';
+import StorySubText from './Story/SubText';
 
 interface StoryParams {
   key: number;
@@ -25,20 +26,10 @@ export interface StoryProps {
 }
 
 export default function Story({ storyId, index, story, pathType }: StoryParams) {
-  const isAskOrShow = pathType === 'ask' || pathType === 'show';
   return (
     <>
       <tr className="athing" key={storyId} id={'' + storyId}>
-        <td align="right" valign="top" className="title">
-          <span className="rank">{`${index}.`}</span>
-        </td>
-        <td valign="top" className="votelinks">
-          <center>
-            <a id={`up_${storyId}`} href={`vote?id=${storyId}&amp;how=up&amp;goto=news`}>
-              <div className="votearrow" title="upvote" />
-            </a>
-          </center>
-        </td>
+        <StoryRank storyId={storyId} index={index} pathType={pathType} />
         <td className="title">
           <span className="titleline">
             <a href={`${story.url}`}>{`${story.title}`}</a>
@@ -54,19 +45,7 @@ export default function Story({ storyId, index, story, pathType }: StoryParams) 
       </tr>
       <tr>
         <td colSpan={2} />
-        <td className="subtext">
-          <span className="score" id={`score_${story.id}`}>
-            {`${story.points} ${story.points === 1 ? 'point' : 'points'} `}
-          </span>
-          <a href={`user?id=${story.user}`} className="hnuser">
-            {`by ${story.user}`}
-          </a>
-          <span className="age">
-            <a href={`item?id=${story.id}`}> {story.time_ago} | </a>
-          </span>
-          {!isAskOrShow && <a href={`hide?id=${story.id}&amp;goto=news`}>hide | </a>}
-          <StoryComment storyId={story.id} count={story.comments_count} />
-        </td>
+        <StorySubText index={index} pathType={pathType} story={story} />
       </tr>
       <tr className="spacer" style={{ height: '5px' }}></tr>
     </>

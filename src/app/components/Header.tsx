@@ -2,6 +2,7 @@
 import Image from 'next/image';
 
 import logoImage from '@/app/assets/y18.gif';
+import { usePathname } from 'next/navigation';
 
 interface PageProps {
   href: string;
@@ -80,11 +81,9 @@ const headerElement = (selected: boolean, pageProps: PageProps) => {
   }
 };
 
-interface HeaderProps {
-  pathType: string;
-}
-
-export default function Header({ pathType }: HeaderProps) {
+export default function Header() {
+  const pathname = usePathname();
+  const pathType = pathname.slice(1) !== '' ? pathname.slice(1) : 'news';
   return (
     <td
       style={{
