@@ -41,7 +41,7 @@ export default function StorySubText({ index, pathType, story }: StorySubTextPro
             className="hnpast"
             href={`https://hn.algolia.com/?query=${story.title}&type=story&dateRange=all&sort=byDate&storyText=false&prefix&page=0`}
           >
-            past
+            {'past'}
           </a>
           {' | '}
           <StoryComment storyId={story.id} count={story.comments_count} />
@@ -63,7 +63,7 @@ export default function StorySubText({ index, pathType, story }: StorySubTextPro
             <a href={`item?id=${story.id}`}> {story.time_ago}</a>
             {' | '}
           </span>
-          {!isAskOrShow && <a href={`hide?id=${story.id}&amp;goto=news`}>hide | </a>}
+          {!isAskOrShow && <a href={`hide?id=${story.id}&amp;goto=news`}>{'hide | '}</a>}
           <StoryComment storyId={story.id} count={story.comments_count} />
         </td>
       </>
