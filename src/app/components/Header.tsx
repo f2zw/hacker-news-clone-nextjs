@@ -108,7 +108,7 @@ export default function Header() {
               }}
             >
               <a
-                href="https://news.ycombinator.com"
+                href="/"
                 style={{
                   display: 'flex',
                   alignItems: 'center',
@@ -138,12 +138,18 @@ export default function Header() {
                   <a href="news">Hacker News</a>
                 </b>{' '}
                 {/* prettier-ignore */}
-                {headerElement(pathType === 'newest', pageObject.new)} |{' '}
-                {headerElement(pathType === 'front', pageObject.front)} |{' '}
-                {headerElement(pathType === 'newcomments', pageObject.comments)} |{' '}
-                {headerElement(pathType === 'ask', pageObject.ask)} |{' '}
-                {headerElement(pathType === 'show', pageObject.show)} |{' '}
-                {headerElement(pathType === 'jobs', pageObject.jobs)} |{' '}
+                {headerElement(pathType === 'newest', pageObject.new)}
+                {' | '}
+                {headerElement(pathType === 'front', pageObject.front)}
+                {' | '}
+                {headerElement(pathType === 'newcomments', pageObject.comments)}
+                {' | '}
+                {headerElement(pathType === 'ask', pageObject.ask)}
+                {' | '}
+                {headerElement(pathType === 'show', pageObject.show)}
+                {' | '}
+                {headerElement(pathType === 'jobs', pageObject.jobs)}
+                {' | '}
                 {headerElement(pathType === 'submit', pageObject.submit)}
               </span>
             </td>

@@ -14,7 +14,7 @@ export default function Header() {
       </table>
       <br />
       <center>
-        <a href="https://news.ycombinator.com/apply/">Applications are open for YC Summer 2023</a>
+        <a href="https://www.ycombinator.com/apply/">Applications are open for YC Summer 2023</a>
       </center>
       <br />
       <center>
