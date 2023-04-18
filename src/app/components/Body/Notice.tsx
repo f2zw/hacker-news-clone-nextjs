@@ -12,15 +12,15 @@ export default function BodyNotice({ pathType }: BodyNoticeProps) {
           marginBottom: '12px'
         }}
       >
-        Please read the{' '}
+        {'Please read the '}
         <a href="https://news.ycombinator.com/showhn.html">
           <u>rules</u>
         </a>
-        . You can also browse the{' '}
+        {'. You can also browse the '}
         <a href="https://news.ycombinator.com/shownew">
           <u>newest</u>
-        </a>{' '}
-        Show HNs.
+        </a>
+        {' Show HNs.'}
       </div>
     );
   } else if (pathType === 'jobs') {
@@ -32,11 +32,11 @@ export default function BodyNotice({ pathType }: BodyNoticeProps) {
           marginBottom: '14px'
         }}
       >
-        These are jobs at YC startups. See more at{' '}
+        {'These are jobs at YC startups. See more at '}
         <a href="https://news.ycombinator.com/jobs">
           <u>ycombinator.com/jobs</u>
         </a>
-        .
+        {'.'}
       </div>
     );
   } else {
