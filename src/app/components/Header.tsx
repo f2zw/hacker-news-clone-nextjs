@@ -116,6 +116,7 @@ export default function Header() {
                 }}
               >
                 <Image
+                  className="transition-opacity opacity-0 duration-[2s]"
                   src={logoImage}
                   alt="y18"
                   width="18"

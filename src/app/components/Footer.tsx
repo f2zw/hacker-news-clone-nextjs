@@ -4,7 +4,15 @@ import Image from 'next/image';
 export default function Header() {
   return (
     <td>
-      <Image src={sImage} alt="s" width={0} height={10} />
+      <Image
+        src={sImage}
+        alt="s"
+        style={{
+          aspectRatio: 0,
+          width: 0,
+          height: 10
+        }}
+      />
       <table cellPadding={1} cellSpacing={0} width="100%">
         <tbody>
           <tr>
@@ -37,7 +45,14 @@ export default function Header() {
         </span>
         <br />
         <br />
-        <form method="get" action="//hn.algolia.com/">
+        <form
+          method="get"
+          action="//hn.algolia.com/"
+          style={{
+            marginTop: '0em',
+            marginBlockEnd: '1em'
+          }}
+        >
           {'Search: '}
           <input
             type="text"

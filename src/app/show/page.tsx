@@ -5,7 +5,11 @@ import Body from '@/app/components/Body';
 export async function generateMetadata(): Promise<Metadata> {
   return {
     title: 'Show | Hacker News',
-    description: 'Show HN'
+    description: 'Show HN',
+    openGraph: {
+      title: 'Show | Hacker News',
+      description: 'Show HN'
+    }
   };
 }
 
